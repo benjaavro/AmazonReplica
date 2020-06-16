@@ -1,0 +1,425 @@
+<!---
+  Created by IntelliJ IDEA.
+  User: benjaavro
+  Date: 14/06/20
+  Time: 16:33
+  To change this template use File | Settings | File Templates.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+  <title>Amazon</title>
+</head>
+<body>
+  <!-- NavBar -->
+  <nav class="navbar navbar-dark bg-primary">
+    <a class="navbar-brand" href="#">
+      <img src="/AmazonDAI_war_exploded/img/amazon-logo.png" height="30" class="d-inline-block align-top" alt="" loading="lazy">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="#" onclick="selectMusic()">Música</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" onclick="selectBooks()">Libros</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container-fluid" style="margin-top: 20px;">
+    <div class="row">
+      <div class="col-8">
+        <h1>Selecciona un catálogo</h1>
+
+      </div>
+      <div class="btn-group dropdown col-4">
+        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Catálogos
+        </button>
+        <div class="dropdown-menu">
+          <!-- Dropdown menu links -->
+          <a class="dropdown-item" href="#" onclick="selectMusic()">Musica</a>
+          <a class="dropdown-item" href="#" onclick="selectBooks()">Libros</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="container-fluid" id="books-form" style="display: none; margin-top: 40px;">
+    <form action='' method='get'>
+      <label for="titulo">TITULO</label>
+      <input type='text' id='titulo' name='titulo' value=''><br/>
+      <label for="autor">AUTOR</label>
+      <input type='text' id='autor' name='autor' value=''><br/>
+      <label for="editorial">EDITORIAL</label>
+      <input type='text' id='editorial'    name='editorial' value=''><br/>
+
+      <input type='button' id='bConsultarLibros' name='bConsultar' value='Mostrar Todos' onClick="consultarLibros()">
+      <input type='button' id='bConsultarEditorial' name='bConsultarEditorial' value='Buscar Por Editorial' onClick="consultarEditorial()">
+      <input type='button' id='bConsultarTitulo' name='bConsultarTitulo' value='Buscar Por Titulo' onClick="consultarTitulo()">
+      <input type='button' id='bCapturar' name='bCapturar' value='Capturar Datos' onclick="capturarDatos()">
+    </form>
+
+    <div class="container" id="books-content" style="margin-top: 40px;">
+
+    </div>
+  </div>
+
+  <div class="container-fluid" id="music-form" style="display: none; margin-top: 40px;">
+    <form action='' method='get'>
+      <label for="artista">ARTISTA</label>
+      <input type='text' name='artista' id='artista' value='' placeholder="Los Tucanes de Tijuana"><br/>
+      <input type='button' name='bConsultarAlbums' id='bConsultarAlbums' value='Consultar Albums' onclick='buscarDiscos()'>
+    </form>
+
+    <div class="container" id="music-content" style="margin-top: 40px;">
+
+    </div>
+  </div>
+
+  <div class="container-fluid" id="account" style="display: none; margin-top: 30px; margin-bottom: 30px;">
+    <hr>
+    <div class="row align-items-center justify-content-center">
+      <h2>Inicia sesión para comprar</h2>
+    </div>
+    <div class="row align-items-center justify-content-center">
+      <div class="col-3"></div>
+      <div class="col-3 align-items-center justify-content-center">
+        <button class="btn btn-primary" style="width: 90%;" onclick="displayLogIn()">Log In</button>
+      </div>
+      <div class="col-3 align-items-center justify-content-center">
+        <button class="btn btn-primary" style="width: 90%;" onclick="displaySignUp()">Sign Up</button>
+      </div>
+      <div class="col-3"></div>
+    </div>
+
+    <div class="container" id="logInForm" style="display: none; margin-top: 30px;">
+      <form action='' method='get' style="margin: auto;">
+        <div class="row" style="margin-top: 10px;">
+          <label for="logIn_user" style="margin: auto;">Mail</label>
+          <input type='text' name='logIn_user' id='logIn_user' value='' placeholder="example@mail.com" style="margin: auto;">
+        </div>
+        <div class="row" style="margin-top: 10px;">
+          <label for="logIn_password" style="margin: auto;">Password</label>
+          <input type='password' name='logIn_password' id='logIn_password' value='' placeholder="********" style="margin: auto;">
+        </div>
+        <div class="row" style="margin-top: 10px;">
+          <input type='button' class="btn btn-primary" name='bLogIn' id='bLogIn' value='Iniciar Sesión' onclick='logIn()' style="margin: auto;">
+        </div>
+      </form>
+    </div>
+
+    <div class="container" id="signUpForm" style="display: none;">
+      <form action='' method='get' style="margin: auto;">
+        <div class="row" style="margin-top: 10px;">
+          <label for="signUp_mail" style="margin: auto;">Mail</label>
+          <input type='text' name='signUp_mail' id='signUp_mail' value='' placeholder="example@mail.com" style="margin: auto;">
+        </div>
+        <div class="row" style="margin-top: 10px;">
+          <label for="signUp_password" style="margin: auto;">Password</label>
+          <input type='password' name='signUp_password' id='signUp_password' value='' placeholder="********" style="margin: auto;">
+        </div>
+        <div class="row" style="margin-top: 10px;">
+          <label for="signUp_name" style="margin: auto;">Name</label>
+          <input type='text' name='signUp_name' id='signUp_name' value='' placeholder="Juan Escutia" style="margin: auto;">
+        </div>
+        <div class="row" style="margin-top: 10px;">
+          <label for="signUp_address" style="margin: auto;">Address</label>
+          <input type='text' name='signUp_address' id='signUp_address' value='' placeholder="Calle, Colonia, Num, CP" style="margin: auto;">
+        </div>
+        <div class="row" style="margin-top: 10px;">
+          <label for="signUp_phone" style="margin: auto;">Phone</label>
+          <input type='text' name='signUp_phone' id='signUp_phone' value='' placeholder="01 800 123 6587" style="margin: auto;">
+        </div>
+        <div class="row" style="margin-top: 10px;">
+          <label for="signUp_card" style="margin: auto;">Card Number</label>
+          <input type='text' name='signUp_card' id='signUp_card' value='' placeholder="3136514289010110" style="margin: auto;">
+        </div>
+        <div class="row" style="margin-top: 10px;">
+          <label for="signUp_type" style="margin: auto;">Card Type</label>
+          <input type='text' name='signUp_type' id='signUp_type' value='' placeholder="VISA" style="margin: auto;">
+        </div>
+        <div class="row" style="margin-top: 10px;">
+          <input type='button' class="btn btn-primary" name='bSignUp' id='bSignUp' value='Registrar' onclick='signUp()' style="margin: auto;">
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="container-fluid" id="purchase" style="display: none; margin-top: 30px; margin-bottom: 30px;">
+    <div class="row align-items-center justify-content-center">
+      <h1><b>Detalles de compra</b></h1>
+    </div>
+    <div class="container" id="purchase-info">
+
+    </div>
+  </div>
+
+  <script>
+    var xhr;
+    var selection;
+    var chosen;
+    var tipo;
+    var name;
+    var price;
+
+    function obtenerResultado() {
+      if (xhr.readyState == 4) {
+        if (selection == 1) {
+          document.getElementById("music-content").innerHTML = xhr.responseText;
+        } else if (selection == 2) {
+          document.getElementById("books-content").innerHTML = xhr.responseText;
+        } else if (selection == 3) {
+          document.getElementById("purchase-info").innerHTML = xhr.responseText;
+          selectionData();
+        } else if (selection == 4) {
+          document.getElementById("purchase-info").innerHTML += xhr.responseText;
+        } else if (selection == 5) {
+          document.getElementById("songs-info").innerHTML += xhr.responseText;
+        }
+
+      }
+    }
+
+    function establecerConexion(urlString) {
+      xhr.open("get", urlString, true);
+      xhr.onreadystatechange = obtenerResultado;
+      xhr.send(null);
+    }
+
+    function selectMusic() {
+      selection = 1;
+      document.getElementById("books-form").style.display = "none";
+      document.getElementById("music-form").style.display = "block";
+      document.getElementById("account").style.display = "none";
+      document.getElementById("purchase").style.display = "none";
+    }
+
+    function selectBooks() {
+      selection = 2;
+      document.getElementById("music-form").style.display = "none";
+      document.getElementById("books-form").style.display = "block";
+      document.getElementById("account").style.display = "none";
+      document.getElementById("purchase").style.display = "none";
+    }
+
+    function buscarDiscos() {
+      var a = document.getElementById("artista").value;
+      //alert(a);
+      if (a.length > 1) {
+        consultarArtista(a);
+      } else {
+        consultarAlbums();
+      }
+    }
+
+    function consultarAlbums() {
+      // 1. Definir ruta
+      var urlString = "Amazon.jsp?action=getAlbums";
+
+      // 2. Crear objeto de conexión
+      xhr = new XMLHttpRequest();
+
+      // 3. Establecer conexión con el server HTTP para transacciones
+      establecerConexion(urlString);
+    }
+
+    function consultarArtista(artista) {
+      // 1. Definir ruta
+      var urlString = "Amazon.jsp?action=getArtista&artist=" + artista;
+
+      // 2. Crear objeto de conexión
+      xhr = new XMLHttpRequest();
+
+      // 3. Establecer conexión con el server HTTP para transacciones
+      establecerConexion(urlString);
+    }
+
+    function consultarLibros() {
+      // 1. Definir ruta
+      var urlString = "Amazon.jsp?action=getLibros";
+
+      // 2. Crear objeto de conexión
+      xhr = new XMLHttpRequest();
+
+      // 3. Establecer conexión con el server HTTP para transacciones
+      establecerConexion(urlString);
+    }
+
+    function consultarSongs() {
+      selection = 5;
+      var edit = document.getElementById("name_" + chosen).value;
+      // 1. Definir ruta
+      var urlString = "Amazon.jsp?action=getSongs&album=";
+
+      // 2. Crear objeto de conexión
+      xhr = new XMLHttpRequest();
+
+      // 3. Establecer conexión con el server HTTP para transacciones
+      establecerConexion(urlString);
+    }
+
+    function consultarEditorial() {
+      var edit = document.getElementById("editorial").value;
+
+      // 1. Definir ruta
+      var urlString = "Amazon.jsp?action=getEditorial&editorial=" + edit;
+
+      // 2. Crear objeto de conexión
+      xhr = new XMLHttpRequest();
+
+      // 3. Establecer conexión con el server HTTP para transacciones
+      establecerConexion(urlString);
+    }
+
+    function consultarTitulo() {
+      var titulo = document.getElementById("titulo").value;
+
+      // 1. Definir ruta
+      var urlString = "Amazon.jsp?action=getTitulo&titulo=" + titulo;
+
+      // 2. Crear objeto de conexión
+      xhr = new XMLHttpRequest();
+
+      // 3. Establecer conexión con el server HTTP para transacciones
+      establecerConexion(urlString);
+    }
+
+    function capturarDatos() {
+      // 1. Definir ruta
+      var urlString = "Amazon.jsp?action=newLibro";
+
+      // 2. Crear objeto de conexión
+      xhr = new XMLHttpRequest();
+
+      // 3. Establecer conexión con el server HTTP para transacciones
+      establecerConexion(urlString);
+    }
+
+    function requestCompra(number, type) {
+      chosen = number;
+      tipo = type;
+      document.getElementById("account").style.display = "block";
+    }
+
+    function displayLogIn() {
+      document.getElementById("signUpForm").style.display = "none";
+      document.getElementById("logInForm").style.display = "block";
+    }
+
+    function displaySignUp() {
+      document.getElementById("logInForm").style.display = "none";
+      document.getElementById("signUpForm").style.display = "block";
+    }
+
+    function selectionData() {
+      selection = 4;
+      name = document.getElementById("name_" + chosen).innerHTML;
+      price = document.getElementById("price_" + chosen).innerHTML;
+
+      var auxPrice = price.substr(1);
+
+      // 1. Definir ruta
+      var urlString = "Amazon.jsp?action=selectionData&name=" + name + "&price=" + auxPrice;
+
+      // 2. Crear objeto de conexión
+      xhr = new XMLHttpRequest();
+
+      // 3. Establecer conexión con el server HTTP para transacciones
+      establecerConexion(urlString);
+    }
+
+    function logIn() {
+      selection = 3;
+      document.getElementById("purchase").style.display = "block";
+
+      var user = document.getElementById("logIn_user").value;
+      var pwd = document.getElementById("logIn_password").value;
+
+      // 1. Definir ruta
+      var urlString = "Amazon.jsp?action=logIn&user=" + user + "&pwd=" + pwd;
+
+      // 2. Crear objeto de conexión
+      xhr = new XMLHttpRequest();
+
+      // 3. Establecer conexión con el server HTTP para transacciones
+      establecerConexion(urlString);
+
+      // alert("Inicio Exitoso");
+    }
+
+    function signUp() {
+      selection = 3;
+      document.getElementById("purchase").style.display = "block";
+
+      var user = document.getElementById("signUp_mail").value;
+      var pwd = document.getElementById("signUp_password").value;
+      var name = document.getElementById("signUp_name").value;
+      var address = document.getElementById("signUp_address").value;
+      var phone = document.getElementById("signUp_phone").value;
+      var card = document.getElementById("signUp_card").value;
+      var type = document.getElementById("signUp_type").value;
+
+      var data = user + "_" + pwd + "_" + name + "_" + address + "_" + phone + "_" + card + "_" + type + "_";
+
+
+      // 1. Definir ruta
+      var urlString = "Amazon.jsp?action=signUp&data=" + data;
+
+      // 2. Crear objeto de conexión
+      xhr = new XMLHttpRequest();
+
+      // 3. Establecer conexión con el server HTTP para transacciones
+      establecerConexion(urlString);
+    }
+
+    function refreshPage() {
+      location.reload();
+    }
+
+    function registrarCompra() {
+      var mail = document.getElementById("compra_mail").innerHTML;
+      var name = document.getElementById("compra_name").innerHTML;
+      var addr = document.getElementById("compra_address").innerHTML;
+      var card = document.getElementById("compra_card").innerHTML;
+      var product = document.getElementById("compra_article").innerHTML;
+      var number = 1;
+      var total = document.getElementById("compra_total").innerHTML;
+      var date = document.getElementById("compra_date").innerHTML;
+      var time = document.getElementById("compra_time").innerHTML;
+
+      var newPurchase = mail + "_" + name + "_" + addr + "_" + card + "_" + product + "_" + number + "_" + total + "_" + date + "_" + time;
+
+      var urlString = "Amazon.jsp?action=newPurchase&datos=" + newPurchase;
+
+      // 2. Crear objeto de conexión
+      xhr = new XMLHttpRequest();
+
+      // 3. Establecer conexión con el server HTTP para transacciones
+      establecerConexion(urlString);
+    }
+
+  </script>
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+</body>
+</html>
